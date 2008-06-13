@@ -3,41 +3,31 @@
 /**
  * Nette Framework
  *
- * Copyright (c) 2004, 2008 David Grudl (http://davidgrudl.com)
- *
- * This source file is subject to the "Nette license" that is bundled
- * with this package in the file license.txt.
- *
- * For more information please see http://nettephp.com/
- *
- * @copyright  Copyright (c) 2004, 2008 David Grudl
- * @license    http://nettephp.com/license  Nette license
- * @link       http://nettephp.com/
+ * @copyright  Copyright (c) 2004, 2010 David Grudl
+ * @license    http://nette.org/license  Nette license
+ * @link       http://nette.org
  * @category   Nette
- * @package    Nette::IO
+ * @package    Nette\IO
  */
 
-/*namespace Nette::IO;*/
+/*namespace Nette\IO;*/
 
 
 
 /**
  * Thread safe / atomic file manipulation. Stream safe://
  *
- * usage:
- *     <code>
- *     file_put_contents('safe://myfile.txt', $content)
+ * <code>
+ * file_put_contents('safe://myfile.txt', $content);
  *
- *     $content = file_get_contents('safe://myfile.txt')
+ * $content = file_get_contents('safe://myfile.txt');
  *
- *     unlink('safe://myfile.txt');
- *     </code>
+ * unlink('safe://myfile.txt');
+ * </code>
  *
  *
- * @author     David Grudl
- * @copyright  Copyright (c) 2004, 2008 David Grudl
- * @package    Nette::IO
- * @version    $Revision$ $Date$
+ * @copyright  Copyright (c) 2004, 2010 David Grudl
+ * @package    Nette\IO
  */
 final class SafeStream
 {
@@ -69,11 +59,9 @@ final class SafeStream
 
 
 
-
 	/**
 	 * Registers protocol 'safe://'.
-	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function register()
 	{
@@ -84,12 +72,11 @@ final class SafeStream
 
 	/**
 	 * Opens file.
-	 *
 	 * @param  string    file name with stream protocol
 	 * @param  string    mode - see fopen()
 	 * @param  int       STREAM_USE_PATH, STREAM_REPORT_ERRORS
 	 * @param  string    full path
-	 * @return boolean  TRUE on success or FALSE on failure
+	 * @return bool      TRUE on success or FALSE on failure
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path)
 	{
@@ -105,7 +92,7 @@ final class SafeStream
 		case 'r':
 		case 'r+':
 			// enter critical section: open and lock EXISTING file for reading/writing
-			$handle = @fopen($path, $mode.$flag, $use_path); // @ is needed
+			$handle = @fopen($path, $mode.$flag, $use_path); // intentionally @
 			if (!$handle) return FALSE;
 			if (flock($handle, $mode == 'r' ? LOCK_SH : LOCK_EX)) {
 				$this->handle = $handle;
@@ -119,7 +106,7 @@ final class SafeStream
 		case 'w':
 		case 'w+':
 			// try enter critical section: open and lock EXISTING file for rewriting
-			$handle = @fopen($path, 'r+'.$flag, $use_path); // @ is needed
+			$handle = @fopen($path, 'r+'.$flag, $use_path); // intentionally @
 
 			if ($handle) {
 				if (flock($handle, LOCK_EX)) {
@@ -145,19 +132,19 @@ final class SafeStream
 			$tmp = '~~' . time() . '.tmp';
 
 			// enter critical section: create temporary file
-			$handle = @fopen($path.$tmp, $mode.$flag, $use_path); // @ is needed
+			$handle = @fopen($path . $tmp, $mode . $flag, $use_path); // intentionally @
 			if ($handle) {
 				if (flock($handle, LOCK_EX)) {
 					$this->handle = $handle;
-					if (!@rename($path.$tmp, $path)) { // @ is needed
+					if (!@rename($path . $tmp, $path)) { // intentionally @
 						// rename later - for windows
-						$this->tempFile = realpath($path.$tmp);
+						$this->tempFile = realpath($path . $tmp);
 						$this->filePath = substr($this->tempFile, 0, -strlen($tmp));
 					}
 					return TRUE;
 				}
 				fclose($handle);
-				unlink($path.$tmp);
+				unlink($path . $tmp);
 			}
 			return FALSE;
 
@@ -172,7 +159,6 @@ final class SafeStream
 
 	/**
 	 * Closes file.
-	 *
 	 * @return void
 	 */
 	public function stream_close()
@@ -186,7 +172,7 @@ final class SafeStream
 		// are we working with temporary file?
 		if ($this->tempFile) {
 			// try to rename temp file, otherwise delete temp file
-			if (!@rename($this->tempFile, $this->filePath)) { // @ is needed
+			if (!@rename($this->tempFile, $this->filePath)) { // intentionally @
 				unlink($this->tempFile);
 			}
 		}
@@ -196,7 +182,6 @@ final class SafeStream
 
 	/**
 	 * Reads up to length bytes from the file.
-	 *
 	 * @param  int    length
 	 * @return string
 	 */
@@ -209,7 +194,6 @@ final class SafeStream
 
 	/**
 	 * Writes the string to the file.
-	 *
 	 * @param  string    data to write
 	 * @return int      number of bytes that were successfully stored
 	 */
@@ -229,7 +213,6 @@ final class SafeStream
 
 	/**
 	 * Returns the position of the file.
-	 *
 	 * @return int
 	 */
 	public function stream_tell()
@@ -241,7 +224,6 @@ final class SafeStream
 
 	/**
 	 * Returns TRUE if the file pointer is at end-of-file.
-	 *
 	 * @return bool
 	 */
 	public function stream_eof()
@@ -253,7 +235,6 @@ final class SafeStream
 
 	/**
 	 * Sets the file position indicator for the file.
-	 *
 	 * @param  int    position
 	 * @param  int    see fseek()
 	 * @return int   Return TRUE on success
@@ -267,7 +248,6 @@ final class SafeStream
 
 	/**
 	 * Gets information about a file referenced by $this->handle.
-	 *
 	 * @return array
 	 */
 	public function stream_stat()
@@ -279,7 +259,6 @@ final class SafeStream
 
 	/**
 	 * Gets information about a file referenced by filename.
-	 *
 	 * @param  string    file name
 	 * @param  int       STREAM_URL_STAT_LINK, STREAM_URL_STAT_QUIET
 	 * @return array
@@ -288,7 +267,7 @@ final class SafeStream
 	{
 		// This is not thread safe
 		$path = substr($path, strlen(self::PROTOCOL)+3);
-		return ($flags & STREAM_URL_STAT_LINK) ? @lstat($path) : @stat($path); // @ is needed
+		return ($flags & STREAM_URL_STAT_LINK) ? @lstat($path) : @stat($path); // intentionally @
 	}
 
 
@@ -296,9 +275,8 @@ final class SafeStream
 	/**
 	 * Deletes a file.
 	 * On Windows unlink is not allowed till file is opened
-	 *
 	 * @param  string    file name with stream protocol
-	 * @return boolean  TRUE on success or FALSE on failure
+	 * @return bool      TRUE on success or FALSE on failure
 	 */
 	public function unlink($path)
 	{
