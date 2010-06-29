@@ -4,7 +4,6 @@
  * Test: Nette\SafeStream basic usage.
  *
  * @author     David Grudl
- * @category   Nette
  * @package    Nette
  * @subpackage UnitTests
  */
@@ -13,7 +12,7 @@ use Nette\SafeStream;
 
 
 
-require __DIR__ . '/../NetteTest/initialize.php';
+require __DIR__ . '/../bootstrap.php';
 
 
 
@@ -31,9 +30,3 @@ unlink('safe://myfile.txt');
 
 // this is not thread safe - don't relay on returned value
 $ok = is_file('safe://SafeStream.php');
-
-
-
-__halt_compiler() ?>
-
-------EXPECT------
