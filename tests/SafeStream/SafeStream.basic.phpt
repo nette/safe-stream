@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Test: Nette\SafeStream basic usage.
+ * Test: Nette\Utils\SafeStream basic usage.
  *
  * @author     David Grudl
- * @package    Nette
+ * @package    Nette\Utils
  * @subpackage UnitTests
  */
 
-use Nette\SafeStream;
 
 
 
@@ -16,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 
-SafeStream::register();
+Nette\Utils\SafeStream::register();
 
 
 // actually it creates temporary file
