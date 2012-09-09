@@ -4,17 +4,13 @@
  * Test: Nette\Utils\SafeStream stress test.
  *
  * @author     David Grudl
- * @package    Nette\Utils
- * @subpackage UnitTests
  * @multiple   5
  */
 
 use Nette\Diagnostics\Debugger;
 
 
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 function randomStr()
@@ -24,12 +20,10 @@ function randomStr()
 }
 
 
-
 function checkStr($s)
 {
 	return substr($s, 0, 16) === md5(substr($s, 16), TRUE);
 }
-
 
 
 define('COUNT_FILES', 3);
@@ -54,10 +48,10 @@ for ($counter = 0; $counter < 300; $counter++) {
 	}
 
 	// delete
-    /*$ok = @unlink('safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
-    if (!$ok) {
-    	$hits['cantdelete']++;
-    }*/
+	/*$ok = @unlink('safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
+	if (!$ok) {
+		$hits['cantdelete']++;
+	}*/
 
 	// read
 	$res = @file_get_contents('safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
@@ -73,9 +67,9 @@ for ($counter = 0; $counter < 300; $counter++) {
 }
 
 Assert::same( array(
-    'ok' => $counter,   // should be 1000. If unlink() is used, sum [ok] + [notfound] should be 1000
-    'notfound' => 0,    // means 'file not found', should be 0 if unlink() is not used
-    'error' => 0,       // means 'file contents is damaged', MUST be 0
-    'cantwrite' => 0,   // means 'somebody else is writing this file'
-    'cantdelete' => 0,  // means 'unlink() has timeout',  should be 0
+	'ok' => $counter,   // should be 1000. If unlink() is used, sum [ok] + [notfound] should be 1000
+	'notfound' => 0,    // means 'file not found', should be 0 if unlink() is not used
+	'error' => 0,       // means 'file contents is damaged', MUST be 0
+	'cantwrite' => 0,   // means 'somebody else is writing this file'
+	'cantdelete' => 0,  // means 'unlink() has timeout',  should be 0
 ), $hits );

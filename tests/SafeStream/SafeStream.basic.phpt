@@ -4,15 +4,10 @@
  * Test: Nette\Utils\SafeStream basic usage.
  *
  * @author     David Grudl
- * @package    Nette\Utils
- * @subpackage UnitTests
  */
 
 
-
-
 require __DIR__ . '/../bootstrap.php';
-
 
 
 Nette\Utils\SafeStream::register();
