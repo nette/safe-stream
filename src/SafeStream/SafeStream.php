@@ -24,7 +24,7 @@ use Nette;
  * @author     David Grudl
  * @internal
  */
-final class SafeStream
+class SafeStream
 {
 	/** Name of stream protocol - safe:// */
 	const PROTOCOL = 'safe';
