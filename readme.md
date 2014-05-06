@@ -1,6 +1,9 @@
 Nette SafeStream: Atomic Operations
 ===================================
 
+[![Downloads this Month](https://img.shields.io/packagist/dm/nette/safe-stream.svg)](https://packagist.org/packages/nette/safe-stream)
+[![Build Status](https://travis-ci.org/nette/safe-stream.svg?branch=master)](https://travis-ci.org/nette/safe-stream)
+
 The Nette\Utils\SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation. Why
 is it actually good? Let's start with a simple example, where we repeatedly write the same string to the file and then read it:
 
@@ -52,7 +55,3 @@ SafeStream guarantees:
 
 If you write to an existing file in the '`a`' mode (append), SafeStream creates it's copy and only after successfully writing it
 renames it to the original name. Write in this mode is therefore more resource-consuming than in other modes.
-
------
-
-[![Build Status](https://secure.travis-ci.org/nette/safe-stream.png?branch=master)](http://travis-ci.org/nette/safe-stream)
