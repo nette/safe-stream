@@ -2,7 +2,7 @@ Nette SafeStream: Atomic Operations
 ===================================
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/nette/safe-stream.svg)](https://packagist.org/packages/nette/safe-stream)
-[![Build Status](https://travis-ci.org/nette/safe-stream.svg?branch=master)](https://travis-ci.org/nette/safe-stream)
+[![Build Status](https://travis-ci.org/nette/safe-stream.svg?branch=v2.2)](https://travis-ci.org/nette/safe-stream)
 
 The Nette\Utils\SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation. Why
 is it actually good? Let's start with a simple example, where we repeatedly write the same string to the file and then read it:
