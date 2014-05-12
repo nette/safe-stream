@@ -12,9 +12,9 @@ $s = str_repeat('Long String', 10000);
 
 $counter = 1000;
 while ($counter--) {
-	file_put_contents('soubor', $s);       // write it
-	$readed = file_get_contents('soubor'); // read it
-	if ($s !== $readed) {                  // check it
+	file_put_contents('file', $s);       // write it
+	$read = file_get_contents('file');   // read it
+	if ($s !== $read) {                    // check it
 		echo 'Strings are different!';
 	}
 }
@@ -40,7 +40,7 @@ fwrite($handle, 'Nette Framework'); // for now, the data is written into a tempo
 fclose($handle); // and only now the file is renamed to test.txt
 ```
 
-You can of course use all the familiar function, such as:
+You can of course use all the familiar functions, such as:
 
 ```php
 file_put_contents('safe://test.txt', $content);
