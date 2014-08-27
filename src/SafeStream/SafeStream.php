@@ -64,10 +64,9 @@ class SafeStream
 	 * @param  string    file name with stream protocol
 	 * @param  string    mode - see fopen()
 	 * @param  int       STREAM_USE_PATH, STREAM_REPORT_ERRORS
-	 * @param  string    full path
 	 * @return bool      TRUE on success or FALSE on failure
 	 */
-	public function stream_open($path, $mode, $options, & $opened_path)
+	public function stream_open($path, $mode, $options)
 	{
 		$path = substr($path, strlen(self::PROTOCOL)+3);  // trim protocol safe://
 
