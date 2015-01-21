@@ -9,8 +9,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Nette\Utils\SafeStream::register();
-
 // actually it creates temporary file
 $handle = fopen('safe://myfile.txt', 'x');
 fwrite($handle, 'atomic and safe');

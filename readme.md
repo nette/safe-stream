@@ -29,8 +29,13 @@ that your application can handle multiple threads at once - that it's *thread-sa
 Otherwise, you can expect data loss and strange errors occuring.
 
 How to ensure, that functions like file_get_contets or `fwrite` behave atomically? The SafeStream protocol offers a secure solution,
-so we can atomically manipulate files through standard PHP functions. The protocol is available automatically when you
-load Nette Framework. After that, you just need prefix the filename with `safe://`:
+so we can atomically manipulate files through standard PHP functions. To register this protocol install SafeStream via Composer or use:
+
+```php
+Nette\Utils\SafeStream::register();
+```
+
+After that, you just need prefix the filename with `safe://`:
 
 ```php
 $handle = fopen('safe://test.txt', 'x'); // prefix the filename with safe://
