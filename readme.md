@@ -35,10 +35,10 @@ so we can atomically manipulate files through standard PHP functions. To registe
 Nette\Utils\SafeStream::register();
 ```
 
-After that, you just need prefix the filename with `safe://`:
+After that, you just need prefix the filename with `nette.safe://`:
 
 ```php
-$handle = fopen('safe://test.txt', 'x'); // prefix the filename with safe://
+$handle = fopen('nette.safe://test.txt', 'x'); // prefix the filename with nette.safe://
 
 fwrite($handle, 'Nette Framework'); // for now, the data is written into a temporary file
 
@@ -48,9 +48,9 @@ fclose($handle); // and only now the file is renamed to test.txt
 You can of course use all the familiar functions, such as:
 
 ```php
-file_put_contents('safe://test.txt', $content);
+file_put_contents('nette.safe://test.txt', $content);
 
-$ini = parse_ini_file('safe://autoload.ini');
+$ini = parse_ini_file('nette.safe://autoload.ini');
 ```
 
 SafeStream guarantees:

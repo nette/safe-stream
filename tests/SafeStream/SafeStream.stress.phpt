@@ -30,7 +30,7 @@ set_time_limit(0);
 
 // clear playground
 for ($i = 0; $i <= COUNT_FILES; $i++) {
-	file_put_contents('safe://' . TEMP_DIR . '/testfile' . $i, randomStr());
+	file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . $i, randomStr());
 }
 
 
@@ -39,19 +39,19 @@ $hits = array('ok' => 0, 'notfound' => 0, 'error' => 0, 'cantwrite' => 0, 'cantd
 
 for ($counter = 0; $counter < 300; $counter++) {
 	// write
-	$ok = @file_put_contents('safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES), randomStr());
+	$ok = @file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES), randomStr());
 	if ($ok === FALSE) {
 		$hits['cantwrite']++;
 	}
 
 	// delete
-	/*$ok = @unlink('safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
+	/*$ok = @unlink('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
 	if (!$ok) {
 		$hits['cantdelete']++;
 	}*/
 
 	// read
-	$res = @file_get_contents('safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
+	$res = @file_get_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
 
 	// compare
 	if ($res === FALSE) {
