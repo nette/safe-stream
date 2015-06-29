@@ -7,8 +7,6 @@
 
 namespace Nette\Utils;
 
-use Nette;
-
 
 /**
  * Provides atomicity and isolation for thread safe file manipulation using stream nette.safe://
