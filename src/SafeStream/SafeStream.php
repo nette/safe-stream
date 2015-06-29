@@ -20,8 +20,6 @@ use Nette;
  *
  * unlink('nette.safe://myfile.txt');
  * </code>
- *
- * @author     David Grudl
  * @internal
  */
 class SafeStream
