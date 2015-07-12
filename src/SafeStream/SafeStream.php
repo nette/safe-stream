@@ -270,6 +270,36 @@ class SafeStream
 
 
 	/**
+	 * Change stream options
+	 * @param $path
+	 * @param $option
+	 * @param $value
+	 * @return bool
+	 */
+	public function stream_metadata($path, $option, $value)
+	{
+		$path = substr($path, strpos($path, ':') + 3);
+		switch ($option) {
+			case STREAM_META_TOUCH:         // touch()
+				$time = (isset($value[0]) ? $value[0] : NULL);
+				$atime = (isset($value[1]) ? $value[1] : NULL);
+				return touch($path, $time, $atime);
+
+			case STREAM_META_OWNER_NAME:    // chown()
+			case STREAM_META_OWNER:         // chown()
+				return chown($path, $value);
+
+			case STREAM_META_GROUP_NAME:    // chgrp()
+			case STREAM_META_GROUP:         // chgrp()
+				return chgrp($path, $value);
+
+			case STREAM_META_ACCESS:        // chmod()
+				return chmod($path, $value);
+		}
+	}
+
+
+	/**
 	 * Gets information about a file referenced by filename.
 	 * @param  string    file name
 	 * @param  int       STREAM_URL_STAT_LINK, STREAM_URL_STAT_QUIET
