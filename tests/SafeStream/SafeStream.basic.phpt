@@ -23,3 +23,40 @@ unlink('nette.safe://myfile.txt');
 
 // this is not thread safe - don't relay on returned value
 Assert::false(is_file('nette.safe://myfile.txt'));
+
+
+/* test for metadata */
+// create file
+Assert::true(touch('nette.safe://test.txt'));
+// is file?
+Assert::true(is_file('nette.safe://test.txt'));
+// default permission
+Assert::equal('100644', sprintf('%o', fileperms('nette.safe://test.txt')));
+// removes file
+unlink('nette.safe://test.txt');
+// file is deleted?
+Assert::false(is_file('nette.safe://test.txt'));
+
+// create file 2
+Assert::true(touch('nette.safe://test1.txt'));
+// change mod file
+Assert::true(chmod('nette.safe://test1.txt', 0777));
+// is chmod 0777?
+Assert::equal('100777', sprintf('%o', fileperms('nette.safe://test1.txt')));
+// removes file
+unlink('nette.safe://test1.txt');
+// file is deleted?
+Assert::false(is_file('nette.safe://test1.txt'));
+
+// create file 3
+Assert::true(touch('nette.safe://test2.txt'));
+// change owner file
+Assert::true(chown('nette.safe://test2.txt', 'www-data'));
+Assert::true(chown('nette.safe://test2.txt', 33));
+// change group file
+Assert::true(chgrp('nette.safe://test2.txt', 'www-data'));
+Assert::true(chgrp('nette.safe://test2.txt', 33));
+// removes file
+unlink('nette.safe://test2.txt');
+// file is deleted?
+Assert::false(is_file('nette.safe://test2.txt'));

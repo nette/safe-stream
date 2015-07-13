@@ -271,30 +271,33 @@ class SafeStream
 
 	/**
 	 * Change stream options
-	 * @param $path
-	 * @param $option
-	 * @param $value
-	 * @return bool
+	 * @param string    file name
+	 * @param int       STREAM_META_TOUCH, STREAM_META_OWNER_NAME, STREAM_META_OWNER, STREAM_META_GROUP_NAME, STREAM_META_GROUP, STREAM_META_ACCESS
+	 * @param array     variable arguments
+	 * @return bool     Returns TRUE on success or FALSE on failure
 	 */
-	public function stream_metadata($path, $option, $value)
+	public function stream_metadata($path, $option, $args)
 	{
 		$path = substr($path, strpos($path, ':') + 3);
 		switch ($option) {
 			case STREAM_META_TOUCH:         // touch()
-				$time = (isset($value[0]) ? $value[0] : NULL);
-				$atime = (isset($value[1]) ? $value[1] : NULL);
+				$time = (isset($args[0]) ? $args[0] : NULL);
+				$atime = (isset($args[1]) ? $args[1] : NULL);
 				return touch($path, $time, $atime);
 
 			case STREAM_META_OWNER_NAME:    // chown()
-			case STREAM_META_OWNER:         // chown()
-				return chown($path, $value);
+			case STREAM_META_OWNER:
+				return chown($path, $args);
 
 			case STREAM_META_GROUP_NAME:    // chgrp()
-			case STREAM_META_GROUP:         // chgrp()
-				return chgrp($path, $value);
+			case STREAM_META_GROUP:
+				return chgrp($path, $args);
 
 			case STREAM_META_ACCESS:        // chmod()
-				return chmod($path, $value);
+				return chmod($path, $args);
+
+			default:    // failure
+				return FALSE;
 		}
 	}
 
