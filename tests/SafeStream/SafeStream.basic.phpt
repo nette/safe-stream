@@ -26,6 +26,7 @@ Assert::false(is_file('nette.safe://myfile.txt'));
 
 
 /* test for metadata */
+file_put_contents('nette.safe://test.txt', 'hello word');
 // create file 1
 Assert::true(touch('nette.safe://test.txt'));
 // is file?
