@@ -27,20 +27,20 @@ Assert::false(is_file('nette.safe://myfile.txt'));
 
 /* test for metadata */
 // removes file
-@unlink('nette.safe://test.txt');
+//@unlink('nette.safe://test.txt');
 // create file 1
-file_put_contents('nette.safe://test.txt', 'hello');
+//file_put_contents('nette.safe://test.txt', 'hello');
 //Assert::true(@touch('nette.safe://test.txt'));
 // is file?
-Assert::true(is_file('nette.safe://test.txt'));
+//Assert::true(is_file('nette.safe://test.txt'));
 // change mod file
-Assert::true(@chmod('nette.safe://test1.txt', 0777));
+//Assert::true(@chmod('nette.safe://test1.txt', 0777));
 // default permission
-Assert::equal('100777', sprintf('%o', fileperms('nette.safe://test.txt')));
+//Assert::equal('100777', sprintf('%o', fileperms('nette.safe://test.txt')));
 // removes file
-@unlink('nette.safe://test.txt');
+//@unlink('nette.safe://test.txt');
 // file is deleted?
-Assert::false(is_file('nette.safe://test.txt'));
+//Assert::false(is_file('nette.safe://test.txt'));
 
 
 // removes file
