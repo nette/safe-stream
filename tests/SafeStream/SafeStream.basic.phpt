@@ -26,10 +26,10 @@ Assert::false(is_file('nette.safe://myfile.txt'));
 
 
 /* test for metadata */
+// removes file
+unlink('nette.safe://test.txt');
 // create file 1
-file_put_contents('nette.safe://test.txt', 'hello word');
-// create file 1
-//Assert::true(touch('nette.safe://test.txt'));
+Assert::true(touch('nette.safe://test.txt'));
 // is file?
 Assert::true(is_file('nette.safe://test.txt'));
 // change mod file
@@ -40,7 +40,10 @@ Assert::equal('100777', sprintf('%o', fileperms('nette.safe://test.txt')));
 unlink('nette.safe://test.txt');
 // file is deleted?
 Assert::false(is_file('nette.safe://test.txt'));
-/*
+
+
+// removes file
+unlink('nette.safe://test2.txt');
 // create file 2
 Assert::true(touch('nette.safe://test2.txt'));
 // change owner file
@@ -53,4 +56,3 @@ Assert::true(chgrp('nette.safe://test2.txt', 33));
 unlink('nette.safe://test2.txt');
 // file is deleted?
 Assert::false(is_file('nette.safe://test2.txt'));
-*/
