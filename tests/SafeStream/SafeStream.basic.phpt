@@ -29,7 +29,8 @@ Assert::false(is_file('nette.safe://myfile.txt'));
 // removes file
 @unlink('nette.safe://test.txt');
 // create file 1
-Assert::true(@touch('nette.safe://test.txt'));
+file_put_contents('nette.safe://test.txt', 'hello');
+//Assert::true(@touch('nette.safe://test.txt'));
 // is file?
 Assert::true(is_file('nette.safe://test.txt'));
 // change mod file
@@ -45,7 +46,8 @@ Assert::false(is_file('nette.safe://test.txt'));
 // removes file
 unlink('nette.safe://test2.txt');
 // create file 2
-Assert::true(touch('nette.safe://test2.txt'));
+//Assert::true(touch('nette.safe://test2.txt'));
+file_put_contents('nette.safe://test2.txt', 'hello');
 // change owner file
 Assert::true(chown('nette.safe://test2.txt', 'www-data'));
 Assert::true(chown('nette.safe://test2.txt', 33));
