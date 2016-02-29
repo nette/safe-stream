@@ -50,9 +50,16 @@ class SafeStream
 	 */
 	public static function register()
 	{
-		@stream_wrapper_unregister('safe'); // old protocol
+		$registeredProtocols = stream_get_wrappers();
+
+		if(in_array('safe', $registeredProtocols)){
+			@stream_wrapper_unregister('safe'); // old protocol
+		}
 		stream_wrapper_register('safe', __CLASS__);
-		@stream_wrapper_unregister(self::PROTOCOL); // intentionally @
+
+		if(in_array(self::PROTOCOL, $registeredProtocols)){
+			@stream_wrapper_unregister(self::PROTOCOL); // intentionally @
+		}
 		return stream_wrapper_register(self::PROTOCOL, __CLASS__);
 	}
 
