@@ -7,7 +7,15 @@ Nette SafeStream: Atomic Operations
 [![Latest Stable Version](https://poser.pugx.org/nette/safe-stream/v/stable)](https://github.com/nette/safe-stream/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/safe-stream/blob/master/license.md)
 
-The Nette\Utils\SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation. Why
+Install it using Composer:
+
+```
+composer require nette/safe-stream
+```
+
+The last stable release requires PHP version 5.3 or newer (is compatible with PHP 7.0 and 7.1).
+
+The Nette SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation. Why
 is it actually good? Let's start with a simple example, where we repeatedly write the same string to the file and then read it:
 
 ```php
@@ -32,12 +40,7 @@ that your application can handle multiple threads at once - that it's *thread-sa
 Otherwise, you can expect data loss and strange errors occuring.
 
 How to ensure, that functions like file_get_contets or `fwrite` behave atomically? The SafeStream protocol offers a secure solution,
-so we can atomically manipulate files through standard PHP functions. To register this protocol install SafeStream via Composer or use:
-
-```php
-Nette\Utils\SafeStream::register();
-```
-
+so we can atomically manipulate files through standard PHP functions. To register this protocol install SafeStream via Composer.
 After that, you just need prefix the filename with `nette.safe://`:
 
 ```php
