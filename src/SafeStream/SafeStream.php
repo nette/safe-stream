@@ -75,24 +75,24 @@ class SafeStream
 
 		// open file
 		if ($mode === 'r') { // provides only isolation
-			return $this->checkAndLock($this->tempHandle = fopen($path, 'r'.$flag, $use_path), LOCK_SH);
+			return $this->checkAndLock($this->tempHandle = fopen($path, 'r' . $flag, $use_path), LOCK_SH);
 
 		} elseif ($mode === 'r+') {
-			if (!$this->checkAndLock($this->handle = fopen($path, 'r'.$flag, $use_path), LOCK_EX)) {
+			if (!$this->checkAndLock($this->handle = fopen($path, 'r' . $flag, $use_path), LOCK_EX)) {
 				return FALSE;
 			}
 
 		} elseif ($mode[0] === 'x') {
-			if (!$this->checkAndLock($this->handle = fopen($path, 'x'.$flag, $use_path), LOCK_EX)) {
+			if (!$this->checkAndLock($this->handle = fopen($path, 'x' . $flag, $use_path), LOCK_EX)) {
 				return FALSE;
 			}
 			$this->deleteFile = TRUE;
 
 		} elseif ($mode[0] === 'w' || $mode[0] === 'a' || $mode[0] === 'c') {
-			if ($this->checkAndLock($this->handle = @fopen($path, 'x'.$flag, $use_path), LOCK_EX)) { // intentionally @
+			if ($this->checkAndLock($this->handle = @fopen($path, 'x' . $flag, $use_path), LOCK_EX)) { // intentionally @
 				$this->deleteFile = TRUE;
 
-			} elseif (!$this->checkAndLock($this->handle = fopen($path, 'a+'.$flag, $use_path), LOCK_EX)) {
+			} elseif (!$this->checkAndLock($this->handle = fopen($path, 'a+' . $flag, $use_path), LOCK_EX)) {
 				return FALSE;
 			}
 
@@ -103,7 +103,7 @@ class SafeStream
 
 		// create temporary file in the same directory to provide atomicity
 		$tmp = '~~' . lcg_value() . '.tmp';
-		if (!$this->tempHandle = fopen($path . $tmp, (strpos($mode, '+') ? 'x+' : 'x').$flag, $use_path)) {
+		if (!$this->tempHandle = fopen($path . $tmp, (strpos($mode, '+') ? 'x+' : 'x') . $flag, $use_path)) {
 			$this->clean();
 			return FALSE;
 		}
@@ -295,5 +295,4 @@ class SafeStream
 		$path = substr($path, strpos($path, ':') + 3);
 		return unlink($path);
 	}
-
 }
