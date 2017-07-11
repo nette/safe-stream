@@ -41,7 +41,7 @@ class SafeStream
 	private $deleteFile;
 
 	/** @var bool  error detected? */
-	private $writeError = FALSE;
+	private $writeError = false;
 
 
 	/**
@@ -63,7 +63,7 @@ class SafeStream
 	 * @param  string    file name with stream protocol
 	 * @param  string    mode - see fopen()
 	 * @param  int       STREAM_USE_PATH, STREAM_REPORT_ERRORS
-	 * @return bool      TRUE on success or FALSE on failure
+	 * @return bool      true on success or false on failure
 	 */
 	public function stream_open($path, $mode, $options)
 	{
@@ -79,33 +79,33 @@ class SafeStream
 
 		} elseif ($mode === 'r+') {
 			if (!$this->checkAndLock($this->handle = fopen($path, 'r' . $flag, $use_path), LOCK_EX)) {
-				return FALSE;
+				return false;
 			}
 
 		} elseif ($mode[0] === 'x') {
 			if (!$this->checkAndLock($this->handle = fopen($path, 'x' . $flag, $use_path), LOCK_EX)) {
-				return FALSE;
+				return false;
 			}
-			$this->deleteFile = TRUE;
+			$this->deleteFile = true;
 
 		} elseif ($mode[0] === 'w' || $mode[0] === 'a' || $mode[0] === 'c') {
 			if ($this->checkAndLock($this->handle = @fopen($path, 'x' . $flag, $use_path), LOCK_EX)) { // intentionally @
-				$this->deleteFile = TRUE;
+				$this->deleteFile = true;
 
 			} elseif (!$this->checkAndLock($this->handle = fopen($path, 'a+' . $flag, $use_path), LOCK_EX)) {
-				return FALSE;
+				return false;
 			}
 
 		} else {
 			trigger_error("Unknown mode $mode", E_USER_WARNING);
-			return FALSE;
+			return false;
 		}
 
 		// create temporary file in the same directory to provide atomicity
 		$tmp = '~~' . lcg_value() . '.tmp';
 		if (!$this->tempHandle = fopen($path . $tmp, (strpos($mode, '+') ? 'x+' : 'x') . $flag, $use_path)) {
 			$this->clean();
-			return FALSE;
+			return false;
 		}
 		$this->tempFile = realpath($path . $tmp);
 		$this->file = substr($this->tempFile, 0, -strlen($tmp));
@@ -116,7 +116,7 @@ class SafeStream
 			fseek($this->handle, 0);
 			if (stream_copy_to_stream($this->handle, $this->tempHandle) !== $stat['size']) {
 				$this->clean();
-				return FALSE;
+				return false;
 			}
 
 			if ($mode[0] === 'a') { // emulate append mode
@@ -124,7 +124,7 @@ class SafeStream
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 
@@ -135,14 +135,14 @@ class SafeStream
 	private function checkAndLock($handle, $lock)
 	{
 		if (!$handle) {
-			return FALSE;
+			return false;
 
 		} elseif (!flock($handle, $lock)) {
 			fclose($handle);
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 
@@ -210,7 +210,7 @@ class SafeStream
 		$res = fwrite($this->tempHandle, $data, $len);
 
 		if ($res !== $len) { // disk full?
-			$this->writeError = TRUE;
+			$this->writeError = true;
 		}
 
 		return $res;
@@ -239,7 +239,7 @@ class SafeStream
 
 
 	/**
-	 * Returns TRUE if the file pointer is at end-of-file.
+	 * Returns true if the file pointer is at end-of-file.
 	 * @return bool
 	 */
 	public function stream_eof()
@@ -252,7 +252,7 @@ class SafeStream
 	 * Sets the file position indicator for the file.
 	 * @param  int    position
 	 * @param  int    see fseek()
-	 * @return int   Return TRUE on success
+	 * @return int   Return true on success
 	 */
 	public function stream_seek($offset, $whence)
 	{
@@ -288,7 +288,7 @@ class SafeStream
 	 * Deletes a file.
 	 * On Windows unlink is not allowed till file is opened
 	 * @param  string    file name with stream protocol
-	 * @return bool      TRUE on success or FALSE on failure
+	 * @return bool      true on success or false on failure
 	 */
 	public function unlink($path)
 	{

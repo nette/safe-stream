@@ -14,13 +14,13 @@ require __DIR__ . '/../bootstrap.php';
 function randomStr()
 {
 	$s = str_repeat('LaTrine', rand(100, 20000));
-	return md5($s, TRUE) . $s;
+	return md5($s, true) . $s;
 }
 
 
 function checkStr($s)
 {
-	return substr($s, 0, 16) === md5(substr($s, 16), TRUE);
+	return substr($s, 0, 16) === md5(substr($s, 16), true);
 }
 
 
@@ -40,7 +40,7 @@ $hits = array('ok' => 0, 'notfound' => 0, 'error' => 0, 'cantwrite' => 0, 'cantd
 for ($counter = 0; $counter < 300; $counter++) {
 	// write
 	$ok = @file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES), randomStr());
-	if ($ok === FALSE) {
+	if ($ok === false) {
 		$hits['cantwrite']++;
 	}
 
@@ -54,7 +54,7 @@ for ($counter = 0; $counter < 300; $counter++) {
 	$res = @file_get_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
 
 	// compare
-	if ($res === FALSE) {
+	if ($res === false) {
 		$hits['notfound']++;
 	} elseif (checkStr($res)) {
 		$hits['ok']++;
