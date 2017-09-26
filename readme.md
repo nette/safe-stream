@@ -7,16 +7,15 @@ Nette SafeStream: Atomic Operations
 [![Latest Stable Version](https://poser.pugx.org/nette/safe-stream/v/stable)](https://github.com/nette/safe-stream/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/safe-stream/blob/master/license.md)
 
-Install it using Composer:
 
-```
-composer require nette/safe-stream
-```
+Introduction
+------------
 
-The last stable release requires PHP version 5.3 or newer (is compatible with PHP 7.0 and 7.1).
+The Nette SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation.
 
-The Nette SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation. Why
-is it actually good? Let's start with a simple example, where we repeatedly write the same string to the file and then read it:
+Documentation can be found on the [website](https://doc.nette.org/safestream).
+
+Why is it actually good? Let's start with a simple example, where we repeatedly write the same string to the file and then read it:
 
 ```php
 $s = str_repeat('Long String', 10000);
@@ -66,3 +65,15 @@ SafeStream guarantees:
 
 If you write to an existing file in the '`a`' mode (append), SafeStream creates it's copy and only after successfully writing it
 renames it to the original name. Write in this mode is therefore more resource-consuming than in other modes.
+
+
+Installation
+------------
+
+The recommended way to install is via Composer:
+
+```
+composer require nette/safe-stream
+```
+
+It requires PHP version 5.3 and supports PHP up to 7.2.
