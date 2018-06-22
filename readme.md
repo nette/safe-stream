@@ -15,6 +15,8 @@ The Nette SafeStram protocol for file manipulation guarantees atomicity and isol
 
 Documentation can be found on the [website](https://doc.nette.org/safestream).
 
+If you like Nette, **[please make a donation now](https://nette.org/donate)**. Thank you!
+
 Why is it actually good? Let's start with a simple example, where we repeatedly write the same string to the file and then read it:
 
 ```php
