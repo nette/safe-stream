@@ -23,7 +23,7 @@ namespace Nette\Utils;
 class SafeStream
 {
 	/** Name of stream protocol - nette.safe:// */
-	const PROTOCOL = 'nette.safe';
+	public const PROTOCOL = 'nette.safe';
 
 	/** @var resource  orignal file handle */
 	private $handle;
@@ -50,7 +50,7 @@ class SafeStream
 	 */
 	public static function register()
 	{
-		foreach (array_intersect(stream_get_wrappers(), array('safe', self::PROTOCOL)) as $name) {
+		foreach (array_intersect(stream_get_wrappers(), ['safe', self::PROTOCOL]) as $name) {
 			stream_wrapper_unregister($name);
 		}
 		stream_wrapper_register('safe', __CLASS__); // old protocol

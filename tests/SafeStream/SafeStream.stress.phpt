@@ -35,7 +35,7 @@ for ($i = 0; $i <= COUNT_FILES; $i++) {
 
 
 // test loop
-$hits = array('ok' => 0, 'notfound' => 0, 'error' => 0, 'cantwrite' => 0, 'cantdelete' => 0);
+$hits = ['ok' => 0, 'notfound' => 0, 'error' => 0, 'cantwrite' => 0, 'cantdelete' => 0];
 
 for ($counter = 0; $counter < 300; $counter++) {
 	// write
@@ -63,10 +63,10 @@ for ($counter = 0; $counter < 300; $counter++) {
 	}
 }
 
-Assert::same(array(
+Assert::same([
 	'ok' => $counter,   // should be 1000. If unlink() is used, sum [ok] + [notfound] should be 1000
 	'notfound' => 0,    // means 'file not found', should be 0 if unlink() is not used
 	'error' => 0,       // means 'file contents is damaged', MUST be 0
 	'cantwrite' => 0,   // means 'somebody else is writing this file'
 	'cantdelete' => 0,  // means 'unlink() has timeout',  should be 0
-), $hits);
+], $hits);
