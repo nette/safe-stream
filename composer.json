@@ -15,10 +15,10 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.1"
+		"php": ">=7.1"
 	},
 	"require-dev": {
-		"nette/tester": "~1.7",
+		"nette/tester": "^2.0",
 		"tracy/tracy": "^2.3"
 	},
 	"autoload": {

@@ -78,4 +78,4 @@ The recommended way to install is via Composer:
 composer require nette/safe-stream
 ```
 
-It requires PHP version 5.3 and supports PHP up to 7.2.
+It requires PHP version 7.1.
