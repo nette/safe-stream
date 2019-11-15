@@ -11,7 +11,7 @@ Nette SafeStream: Atomic Operations
 Introduction
 ------------
 
-The Nette SafeStram protocol for file manipulation guarantees atomicity and isolation of every file operation.
+The Nette SafeStream protocol for file manipulation guarantees atomicity and isolation of every file operation.
 
 Documentation can be found on the [website](https://doc.nette.org/safestream).
 
