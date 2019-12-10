@@ -195,7 +195,7 @@ class SafeStream
 	/**
 	 * Writes the string to the file.
 	 */
-	public function stream_write(string $data): int
+	public function stream_write(string $data)
 	{
 		$len = strlen($data);
 		$res = fwrite($this->tempHandle, $data, $len);
