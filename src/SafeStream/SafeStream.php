@@ -30,7 +30,7 @@ class SafeStream
 	/** @var resource  orignal file handle */
 	private $handle;
 
-	/** @var resource  temporary file handle */
+	/** @var resource|null  temporary file handle */
 	private $tempHandle;
 
 	/** @var string  orignal file path */
