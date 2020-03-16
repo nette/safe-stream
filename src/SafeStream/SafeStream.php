@@ -273,4 +273,13 @@ class SafeStream
 		$path = substr($path, strpos($path, ':') + 3);
 		return unlink($path);
 	}
+
+
+	/**
+	 * Does nothing, but since PHP 7.4 needs to be implemented when using wrapper for includes
+	 */
+	public function stream_set_option(int $option, int $arg1 , int $arg2) : bool
+	{
+		return false;
+	}
 }
