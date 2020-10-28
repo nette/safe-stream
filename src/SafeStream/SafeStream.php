@@ -54,8 +54,8 @@ class SafeStream
 		foreach (array_intersect(stream_get_wrappers(), ['safe', self::PROTOCOL]) as $name) {
 			stream_wrapper_unregister($name);
 		}
-		stream_wrapper_register('safe', __CLASS__); // old protocol
-		return stream_wrapper_register(self::PROTOCOL, __CLASS__);
+		stream_wrapper_register('safe', self::class); // old protocol
+		return stream_wrapper_register(self::PROTOCOL, self::class);
 	}
 
 
@@ -278,7 +278,7 @@ class SafeStream
 	/**
 	 * Does nothing, but since PHP 7.4 needs to be implemented when using wrapper for includes
 	 */
-	public function stream_set_option(int $option, int $arg1 , int $arg2) : bool
+	public function stream_set_option(int $option, int $arg1, int $arg2): bool
 	{
 		return false;
 	}
