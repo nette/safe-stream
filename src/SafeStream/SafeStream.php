@@ -33,14 +33,14 @@ class SafeStream
 	/** @var resource  orignal file handle */
 	private $handle;
 
-	/** @var string  orignal file path */
-	private $filePath;
+	/** orignal file path */
+	private string $filePath;
 
-	/** @var int  starting position in file (for appending) */
-	private $startPos = 0;
+	/** starting position in file (for appending) */
+	private int $startPos = 0;
 
-	/** @var bool  error detected? */
-	private $writeError = false;
+	/** error detected? */
+	private bool $writeError = false;
 
 
 	/**
