@@ -30,20 +30,19 @@ class SafeStream
 	/** @var resource  orignal file handle */
 	private $handle;
 
-	/** @var resource|null  temporary file handle */
+	/** @var ?resource  temporary file handle */
 	private $tempHandle;
 
-	/** @var string  orignal file path */
-	private $file;
+	/** orignal file path */
+	private string $file;
 
-	/** @var string  temporary file path */
-	private $tempFile;
+	/** temporary file path */
+	private ?string $tempFile = null;
 
-	/** @var bool */
-	private $deleteFile;
+	private ?bool $deleteFile = null;
 
-	/** @var bool  error detected? */
-	private $writeError = false;
+	/** error detected? */
+	private bool $writeError = false;
 
 
 	/**
