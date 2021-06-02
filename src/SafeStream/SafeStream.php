@@ -86,7 +86,7 @@ class SafeStream
 			$this->deleteFile = true;
 
 		} elseif ($mode[0] === 'w' || $mode[0] === 'a' || $mode[0] === 'c') {
-			if ($this->checkAndLock($this->handle = @fopen($path, 'x' . $flag, $use_path), LOCK_EX)) { // intentionally @
+			if ($this->checkAndLock($this->handle = @fopen($path, 'x+' . $flag, $use_path), LOCK_EX)) { // intentionally @
 				$this->deleteFile = true;
 
 			} elseif (!$this->checkAndLock($this->handle = fopen($path, 'a+' . $flag, $use_path), LOCK_EX)) {
