@@ -21,7 +21,7 @@ Installation:
 composer require nette/safe-stream
 ```
 
-It requires PHP version 7.1 and supports PHP up to 8.0.
+It requires PHP version 7.1 and supports PHP up to 8.1.
 
 
 What exactly are atomic operations good for? Let's start with a simple example that repeatedly writes the same string to a file and then reads it:
