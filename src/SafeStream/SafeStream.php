@@ -51,11 +51,10 @@ class SafeStream
 	 */
 	public static function register(): bool
 	{
-		foreach (array_intersect(stream_get_wrappers(), ['safe', self::Protocol]) as $name) {
-			stream_wrapper_unregister($name);
+		if (in_array(self::Protocol, stream_get_wrappers(), true)) {
+			stream_wrapper_unregister(self::Protocol);
 		}
 
-		stream_wrapper_register('safe', self::class); // old protocol
 		return stream_wrapper_register(self::Protocol, self::class);
 	}
 
@@ -65,7 +64,7 @@ class SafeStream
 	 */
 	public function stream_open(string $path, string $mode, int $options): bool
 	{
-		$path = substr($path, strpos($path, ':') + 3);  // trim protocol nette.safe://
+		$path = substr($path, strlen(self::Protocol) + 3); // trim protocol nette.safe://
 		$flag = trim($mode, 'crwax+');  // text | binary mode
 		$resMode = rtrim($mode, 'tb');
 		$lock = $resMode === 'r' ? LOCK_SH : LOCK_EX;
@@ -188,7 +187,7 @@ class SafeStream
 	public function url_stat(string $path, int $flags)
 	{
 		// This is not thread safe
-		$path = substr($path, strpos($path, ':') + 3);
+		$path = substr($path, strlen(self::Protocol) + 3);
 		return ($flags & STREAM_URL_STAT_LINK) ? @lstat($path) : @stat($path); // intentionally @
 	}
 
@@ -199,7 +198,7 @@ class SafeStream
 	 */
 	public function unlink(string $path): bool
 	{
-		$path = substr($path, strpos($path, ':') + 3);
+		$path = substr($path, strlen(self::Protocol) + 3);
 		return unlink($path);
 	}
 
