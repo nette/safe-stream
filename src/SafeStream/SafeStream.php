@@ -54,6 +54,7 @@ class SafeStream
 		foreach (array_intersect(stream_get_wrappers(), ['safe', self::PROTOCOL]) as $name) {
 			stream_wrapper_unregister($name);
 		}
+
 		stream_wrapper_register('safe', self::class); // old protocol
 		return stream_wrapper_register(self::PROTOCOL, self::class);
 	}
@@ -142,9 +143,6 @@ class SafeStream
 	}
 
 
-	/**
-	 * Error destructor.
-	 */
 	private function clean(): void
 	{
 		flock($this->handle, LOCK_UN);

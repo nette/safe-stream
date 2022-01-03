@@ -35,7 +35,6 @@ for ($i = 0; $i <= COUNT_FILES; $i++) {
 	file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . $i, randomStr());
 }
 
-
 // test loop
 $hits = ['ok' => 0, 'notfound' => 0, 'error' => 0, 'cantwrite' => 0, 'cantdelete' => 0];
 
