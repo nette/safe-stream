@@ -13,14 +13,14 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-function randomStr()
+function randomStr(): string
 {
 	$s = str_repeat('LaTrine', rand(100, 20000));
 	return md5($s, true) . $s;
 }
 
 
-function checkStr($s)
+function checkStr(string $s): bool
 {
 	return substr($s, 0, 16) === md5(substr($s, 16), true);
 }
@@ -32,13 +32,13 @@ set_time_limit(0);
 
 // clear playground
 for ($i = 0; $i <= COUNT_FILES; $i++) {
-	file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . $i, randomStr());
+	@unlink(TEMP_DIR . '/testfile' . $i);
 }
 
 // test loop
-$hits = ['ok' => 0, 'notfound' => 0, 'error' => 0, 'cantwrite' => 0, 'cantdelete' => 0];
+$hits = ['ok' => 0, 'notfound' => 0, 'notsame' => 0, 'empty' => 0, 'cantwrite' => 0];
 
-for ($counter = 0; $counter < 300; $counter++) {
+for ($counter = 0; $counter < 3000; $counter++) {
 	// write
 	$ok = @file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES), randomStr());
 	if ($ok === false) {
@@ -46,10 +46,7 @@ for ($counter = 0; $counter < 300; $counter++) {
 	}
 
 	// delete
-	/*$ok = @unlink('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
-	if (!$ok) {
-		$hits['cantdelete']++;
-	}*/
+	@unlink('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
 
 	// read
 	$res = @file_get_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
@@ -57,17 +54,16 @@ for ($counter = 0; $counter < 300; $counter++) {
 	// compare
 	if ($res === false) {
 		$hits['notfound']++;
+	} elseif ($res === '') {
+		$hits['empty']++;
 	} elseif (checkStr($res)) {
 		$hits['ok']++;
 	} else {
-		$hits['error']++;
+		$hits['notsame']++;
 	}
 }
 
-Assert::same([
-	'ok' => $counter,   // should be 1000. If unlink() is used, sum [ok] + [notfound] should be 1000
-	'notfound' => 0,    // means 'file not found', should be 0 if unlink() is not used
-	'error' => 0,       // means 'file contents is damaged', MUST be 0
-	'cantwrite' => 0,   // means 'somebody else is writing this file'
-	'cantdelete' => 0,  // means 'unlink() has timeout',  should be 0
-], $hits);
+var_export($hits);
+Assert::same($counter, $hits['ok'] + $hits['notfound']);
+Assert::same(0, $hits['notsame'], 'file contents is damaged');
+Assert::same(0, $hits['empty'], 'file hasn\'t been written yet');
