@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Utils\SafeStream basic usage.
+ * Test: Nette\SafeStream basic usage.
  */
 
 declare(strict_types=1);

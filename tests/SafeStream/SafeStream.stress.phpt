@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Utils\SafeStream stress test.
+ * Test: Nette\SafeStream stress test.
  * @multiple   5
  */
 
