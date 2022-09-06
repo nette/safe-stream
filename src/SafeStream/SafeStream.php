@@ -27,6 +27,9 @@ class SafeStream
 	/** Name of stream protocol - nette.safe:// */
 	public const PROTOCOL = 'nette.safe';
 
+	/** @var ?resource */
+	public $context;
+
 	/** @var resource  orignal file handle */
 	private $handle;
 
