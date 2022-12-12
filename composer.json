@@ -23,6 +23,7 @@
 		"phpstan/phpstan": "^0.12"
 	},
 	"autoload": {
+		"classmap": ["src/"],
 		"files": ["src/loader.php"]
 	},
 	"minimum-stability": "dev",
