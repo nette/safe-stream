@@ -63,7 +63,7 @@ for ($counter = 0; $counter < 3000; $counter++) {
 	}
 }
 
-var_export($hits);
+//var_export($hits);
 Assert::same($counter, $hits['ok'] + $hits['notfound']);
 Assert::same(0, $hits['notsame'], 'file contents is damaged');
 Assert::same(0, $hits['empty'], 'file hasn\'t been written yet');
