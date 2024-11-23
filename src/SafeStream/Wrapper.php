@@ -27,7 +27,7 @@ class Wrapper
 	/** Name of stream protocol - nette.safe:// */
 	public const Protocol = 'nette.safe';
 
-	/** @deprecated use Wrapper::Protocol */
+	#[\Deprecated('use Wrapper::Protocol')]
 	public const PROTOCOL = self::Protocol;
 
 	/** @var ?resource */
