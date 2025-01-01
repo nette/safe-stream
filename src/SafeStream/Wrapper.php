@@ -36,9 +36,6 @@ class Wrapper
 	/** @var resource  orignal file handle */
 	private $handle;
 
-	/** orignal file path */
-	private string $filePath;
-
 	/** starting position in file (for appending) */
 	private int $startPos = 0;
 
