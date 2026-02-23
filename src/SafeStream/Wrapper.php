@@ -109,7 +109,7 @@ class Wrapper
 	/**
 	 * Reads up to length bytes from the file.
 	 */
-	public function stream_read(int $length)
+	public function stream_read(int $length): string|false
 	{
 		return fread($this->handle, $length);
 	}
@@ -118,7 +118,7 @@ class Wrapper
 	/**
 	 * Writes the string to the file.
 	 */
-	public function stream_write(string $data)
+	public function stream_write(string $data): int|false
 	{
 		$len = strlen($data);
 		$res = fwrite($this->handle, $data, $len);
@@ -170,7 +170,7 @@ class Wrapper
 	/**
 	 * Gets information about a file referenced by $this->handle.
 	 */
-	public function stream_stat()
+	public function stream_stat(): array|false
 	{
 		return fstat($this->handle);
 	}
@@ -179,7 +179,7 @@ class Wrapper
 	/**
 	 * Gets information about a file referenced by filename.
 	 */
-	public function url_stat(string $path, int $flags)
+	public function url_stat(string $path, int $flags): array|false
 	{
 		// This is not thread safe
 		$path = substr($path, strlen(self::Protocol) + 3);
