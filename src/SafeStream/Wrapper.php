@@ -34,7 +34,7 @@ class Wrapper
 	/** @var resource  orignal file handle */
 	private $handle;
 
-	/** starting position in file (for appending) */
+	/** @var int<0, max>  starting position in file (for appending) */
 	private int $startPos = 0;
 
 	/** error detected? */
@@ -81,7 +81,7 @@ class Wrapper
 				flock($handle, LOCK_SH);
 			}
 		} elseif ($mode[0] === 'a') {
-			$this->startPos = fstat($handle)['size'];
+			$this->startPos = max(0, fstat($handle)['size']);
 
 		} elseif ($mode[0] === 'w') {
 			ftruncate($handle, 0);
@@ -108,6 +108,7 @@ class Wrapper
 
 	/**
 	 * Reads up to length bytes from the file.
+	 * @param int<1, max> $length
 	 */
 	public function stream_read(int $length): string|false
 	{
@@ -133,6 +134,7 @@ class Wrapper
 
 	/**
 	 * Truncates a file to a given length.
+	 * @param int<0, max> $size
 	 */
 	public function stream_truncate(int $size): bool
 	{
@@ -169,6 +171,7 @@ class Wrapper
 
 	/**
 	 * Gets information about a file referenced by $this->handle.
+	 * @return array<int>|false
 	 */
 	public function stream_stat(): array|false
 	{
@@ -178,6 +181,7 @@ class Wrapper
 
 	/**
 	 * Gets information about a file referenced by filename.
+	 * @return array<int>|false
 	 */
 	public function url_stat(string $path, int $flags): array|false
 	{
