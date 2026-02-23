@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\SafeStream stress test.
  * @multiple   5
  */
-
-declare(strict_types=1);
 
 use Tester\Assert;
 
