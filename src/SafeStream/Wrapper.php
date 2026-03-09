@@ -34,10 +34,10 @@ class Wrapper
 	/** @var resource  orignal file handle */
 	private $handle;
 
-	/** @var int<0, max>  starting position in file (for appending) */
+	/** @var int<0, max>  file position before writing started; used to roll back on write error */
 	private int $startPos = 0;
 
-	/** error detected? */
+	/** write error detected (e.g., disk full); triggers rollback on close */
 	private bool $writeError = false;
 
 
@@ -55,7 +55,9 @@ class Wrapper
 
 
 	/**
-	 * Opens file.
+	 * Opens the file and acquires the appropriate lock (LOCK_SH for reading, LOCK_EX for writing).
+	 * Converts 'w' mode to 'c' to avoid truncation before the lock is held, then truncates manually.
+	 * For reads, retries up to 100 times if the file is empty (another thread may be writing).
 	 */
 	public function stream_open(string $path, string $mode, int $options): bool
 	{
@@ -93,7 +95,7 @@ class Wrapper
 
 
 	/**
-	 * Closes file.
+	 * Releases the lock and closes the file. Truncates back to $startPos if a write error occurred.
 	 */
 	public function stream_close(): void
 	{
@@ -106,10 +108,7 @@ class Wrapper
 	}
 
 
-	/**
-	 * Reads up to length bytes from the file.
-	 * @param int<1, max> $length
-	 */
+	/** @param int<1, max> $length */
 	public function stream_read(int $length): string|false
 	{
 		return fread($this->handle, $length);
@@ -117,7 +116,7 @@ class Wrapper
 
 
 	/**
-	 * Writes the string to the file.
+	 * Writes data to the file. Sets the write-error flag if fewer bytes than expected were written.
 	 */
 	public function stream_write(string $data): int|false
 	{
@@ -180,7 +179,7 @@ class Wrapper
 
 
 	/**
-	 * Gets information about a file referenced by filename.
+	 * Returns file information for the given path. Not thread-safe.
 	 * @return array<int>|false
 	 */
 	public function url_stat(string $path, int $flags): array|false
@@ -192,8 +191,7 @@ class Wrapper
 
 
 	/**
-	 * Deletes a file.
-	 * On Windows unlink is not allowed till file is opened
+	 * Deletes a file. On Windows, fails if the file is currently open.
 	 */
 	public function unlink(string $path): bool
 	{
@@ -203,7 +201,7 @@ class Wrapper
 
 
 	/**
-	 * Does nothing, but since PHP 7.4 needs to be implemented when using wrapper for includes
+	 * Required since PHP 7.4 when the wrapper is used for includes; always returns false.
 	 */
 	public function stream_set_option(int $option, int $arg1, int $arg2): bool
 	{
