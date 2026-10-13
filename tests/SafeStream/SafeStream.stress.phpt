@@ -7,20 +7,19 @@
 
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 function randomStr(): string
 {
 	$s = str_repeat('LaTrine', rand(100, 20000));
-	return md5($s, true) . $s;
+	return md5($s, binary: true) . $s;
 }
 
 
 function checkStr(string $s): bool
 {
-	return substr($s, 0, 16) === md5(substr($s, 16), true);
+	return substr($s, 0, 16) === md5(substr($s, 16), binary: true);
 }
 
 
@@ -61,7 +60,7 @@ for ($counter = 0; $counter < 3000; $counter++) {
 	}
 }
 
-//var_export($hits);
+// var_export($hits);
 Assert::same($counter, $hits['ok'] + $hits['notfound']);
 Assert::same(0, $hits['notsame'], 'file contents is damaged');
 Assert::same(0, $hits['empty'], 'file hasn\'t been written yet');

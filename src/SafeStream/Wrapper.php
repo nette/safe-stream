@@ -7,6 +7,8 @@
 
 namespace Nette\SafeStream;
 
+use function strlen;
+
 
 /**
  * Provides isolation for thread safe file manipulation using stream nette.safe://
@@ -65,12 +67,12 @@ class Wrapper
 		$flag = trim($mode, 'crwax+');  // text | binary mode
 		$resMode = rtrim($mode, 'tb');
 		$lock = $resMode === 'r' ? LOCK_SH : LOCK_EX;
-		$use_path = (bool) (STREAM_USE_PATH & $options);
+		$usePath = (bool) (STREAM_USE_PATH & $options);
 		if ($resMode[0] === 'w') {
 			$resMode[0] = 'c';
 		}
 
-		$handle = fopen($path, $resMode . $flag, $use_path);
+		$handle = fopen($path, $resMode . $flag, $usePath);
 		if (!$handle || !flock($handle, $lock)) {
 			return false;
 		}
