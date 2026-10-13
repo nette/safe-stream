@@ -186,7 +186,7 @@ class Wrapper
 	{
 		// This is not thread safe
 		$path = substr($path, strlen(self::Protocol) + 3);
-		return ($flags & STREAM_URL_STAT_LINK) ? @lstat($path) : @stat($path); // intentionally @
+		return ($flags & STREAM_URL_STAT_LINK) ? @lstat($path) : @stat($path); // @ file may not exist
 	}
 
 

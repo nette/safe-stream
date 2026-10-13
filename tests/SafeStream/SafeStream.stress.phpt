@@ -30,7 +30,7 @@ set_time_limit(0);
 
 // clear playground
 for ($i = 0; $i <= COUNT_FILES; $i++) {
-	@unlink(TEMP_DIR . '/testfile' . $i);
+	@unlink(TEMP_DIR . '/testfile' . $i); // @ file may not exist
 }
 
 // test loop
@@ -38,16 +38,16 @@ $hits = ['ok' => 0, 'notfound' => 0, 'notsame' => 0, 'empty' => 0, 'cantwrite' =
 
 for ($counter = 0; $counter < 3000; $counter++) {
 	// write
-	$ok = @file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES), randomStr());
+	$ok = @file_put_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES), randomStr()); // @ another process may be deleting the file
 	if ($ok === false) {
 		$hits['cantwrite']++;
 	}
 
 	// delete
-	@unlink('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
+	@unlink('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES)); // @ file may not exist
 
 	// read
-	$res = @file_get_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES));
+	$res = @file_get_contents('nette.safe://' . TEMP_DIR . '/testfile' . rand(0, COUNT_FILES)); // @ file may not exist
 
 	// compare
 	if ($res === false) {
