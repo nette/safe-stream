@@ -203,6 +203,22 @@ class Wrapper
 
 
 	/**
+	 * Changes file metadata (touch, chmod, chown, chgrp). Not thread-safe.
+	 */
+	public function stream_metadata(string $path, int $option, mixed $value): bool
+	{
+		$path = substr($path, strlen(self::Protocol) + 3);
+		return match ($option) {
+			STREAM_META_TOUCH => touch($path, ...$value),
+			STREAM_META_OWNER_NAME, STREAM_META_OWNER => chown($path, $value),
+			STREAM_META_GROUP_NAME, STREAM_META_GROUP => chgrp($path, $value),
+			STREAM_META_ACCESS => chmod($path, $value),
+			default => false,
+		};
+	}
+
+
+	/**
 	 * Required since PHP 7.4 when the wrapper is used for includes; always returns false.
 	 */
 	public function stream_set_option(int $option, int $arg1, int $arg2): bool
