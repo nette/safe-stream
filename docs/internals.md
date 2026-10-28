@@ -37,6 +37,7 @@ the file is restored to its pre-write size.
 
 - **Metadata queries bypass the lock.** `url_stat` (`file_exists`, `filesize`,
   `is_file`, …) is explicitly **not thread-safe** — it `@stat`s the path directly and
-  may report on a file another thread is mid-write.
+  may report on a file another thread is mid-write. Likewise `stream_metadata`
+  (`touch`, `chmod`, `chown`, `chgrp`) passes straight to the real path, no lock.
 - **Windows can't unlink an open file.** `unlink('nette.safe://…')` can fail on
   Windows if another thread holds the file open (a platform limit, not a bug).

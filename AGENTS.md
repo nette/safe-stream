@@ -104,6 +104,7 @@ The `Wrapper` class is marked `@internal`; the public API is the `nette.safe://`
 
 Uses Nette Tester with `.phpt` files:
 - `SafeStream.basic.phpt`: Basic read/write/delete operations
+- `SafeStream.metadata.phpt`: `touch()` and `chmod()` passed through to the real file
 - `SafeStream.stress.phpt`: Concurrent access simulation (`@multiple 5` annotation runs 5 processes in parallel)
 
 Tests must use `require __DIR__ . '/../bootstrap.php'` for proper environment setup.
